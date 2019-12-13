@@ -10,37 +10,42 @@ import androidx.fragment.app.FragmentActivity
  * author      ：蒙景博
  * description ：
  */
-class BiometricPromptController(private val context: Context): BiometricPromptDelegate() {
-
-
+class BiometricPromptController(private val context: Context?) : BiometricPromptDelegate() {
 
     override fun getApplicationContext(): Context? = context
 
     /**
-     * 在FragmentActivity
+     * 在FragmentActivity中注册
      */
-    override fun connect(activity: FragmentActivity) {
-        mBiometricPrompt = BiometricPrompt(activity, mExecutor, OnAuthenticationCallback())
+    override fun registered(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback) {
+        mBiometricPrompt = BiometricPrompt(activity, mExecutor, OnAuthenticationCallback(callback))
     }
 
-    override fun connect(fragment: Fragment) {
-        mBiometricPrompt = BiometricPrompt(fragment, mExecutor, OnAuthenticationCallback())
+    /**
+     * 在Fragment中注册
+     */
+    override fun registered(fragment: Fragment, callback: OnBiometricAuthenticationCallback) {
+        mBiometricPrompt = BiometricPrompt(fragment, mExecutor, OnAuthenticationCallback(callback))
     }
 
-    inner class OnAuthenticationCallback: BiometricPrompt.AuthenticationCallback() {
-        // 失败次数
+    internal inner class OnAuthenticationCallback(private val callback: OnBiometricAuthenticationCallback?) : BiometricPrompt.AuthenticationCallback() {
+
+        // 记录失败次数
         private var mNumberFailedAttempts: Int = 0
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             mNumberFailedAttempts = 0
+            callback?.onAuthenticationSucceeded(result)
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             mNumberFailedAttempts = 0
+            callback?.onAuthenticationError(errorCode, errString)
         }
 
         override fun onAuthenticationFailed() {
             mNumberFailedAttempts++
+            callback?.onAuthenticationFailed(mNumberFailedAttempts)
         }
     }
 }

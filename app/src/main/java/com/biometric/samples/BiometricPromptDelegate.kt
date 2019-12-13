@@ -42,9 +42,9 @@ abstract class BiometricPromptDelegate {
     @NonNull
     abstract fun getApplicationContext(): Context?
 
-    abstract fun connect(activity: FragmentActivity)
+    abstract fun registered(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback)
 
-    abstract fun connect(fragment: Fragment)
+    abstract fun registered(fragment: Fragment, callback: OnBiometricAuthenticationCallback)
 
     /**
      * 检测设备是否支持生物识别
