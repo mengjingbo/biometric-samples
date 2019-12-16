@@ -1,4 +1,4 @@
-package com.biometric.samples
+package com.biometric.samples.helper
 
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
@@ -22,14 +22,22 @@ object BiometricPromptSecretKeyHelper {
      * 生成生物识别绑定的密钥
      */
     fun generateBiometricBoundKey(keyName: String, invalidatedByBiometricEnrollment: Boolean): Key? {
-        return generateKey(keyName, true, invalidatedByBiometricEnrollment, -1)
+        return generateKey(
+            keyName,
+            true,
+            invalidatedByBiometricEnrollment,
+            -1
+        )
     }
 
     /**
      * 生成生物识别绑定的密钥
      */
     fun generateCredentialBoundKey(keyName: String, validityDuration: Int): Key? {
-        return generateKey(keyName = keyName, validityDuration = validityDuration)
+        return generateKey(
+            keyName = keyName,
+            validityDuration = validityDuration
+        )
     }
 
     private fun generateKey(keyName: String, biometricBound: Boolean = false, invalidatedByBiometricEnrollment: Boolean = false, validityDuration: Int): Key? {

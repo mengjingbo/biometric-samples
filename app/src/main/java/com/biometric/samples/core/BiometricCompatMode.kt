@@ -1,4 +1,4 @@
-package com.biometric.samples
+package com.biometric.samples.core
 
 /**
  * date        ：2019/11/30

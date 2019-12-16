@@ -5,6 +5,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.biometric.samples.callback.OnBiometricAuthenticationCallback
+import com.biometric.samples.core.BiometricPromptDelegate
 
 /**
  * date        ：2019/11/30

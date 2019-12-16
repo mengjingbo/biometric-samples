@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricPrompt
 import com.biometric.samples.callback.OnBiometricAuthenticationCallback
+import com.biometric.samples.core.BiometricCompatMode
+import com.biometric.samples.core.BiometricPromptInfo
+import com.biometric.samples.helper.BiometricPromptSecretKeyHelper
 import java.io.IOException
 import java.security.*
 import java.security.cert.CertificateException
@@ -110,7 +113,11 @@ class MainActivity : AppCompatActivity(), OnBiometricAuthenticationCallback {
      */
     private fun startAuthentication() {
         if (!mUsedSecretKeyMarker.get()) {
-            mBiometricController.startAuthentication(BiometricPromptInfo("生物识别"))
+            mBiometricController.startAuthentication(
+                BiometricPromptInfo(
+                    "生物识别"
+                )
+            )
         }else {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -118,7 +125,11 @@ class MainActivity : AppCompatActivity(), OnBiometricAuthenticationCallback {
                     val mSecretKey = BiometricPromptSecretKeyHelper.getSecretKey(SECRET_KEY)
                     if (mCipher != null && mSecretKey != null) {
                         mCipher.init(Cipher.ENCRYPT_MODE, mSecretKey)
-                        mBiometricController.startAuthentication(BiometricPromptInfo(title = "生物识别", negativeButtonText = "使用密码"), mCipher)
+                        mBiometricController.startAuthentication(
+                            BiometricPromptInfo(
+                                title = "生物识别",
+                                negativeButtonText = "使用密码"
+                            ), mCipher)
                     }
                 } else {
                     Log.e(this.javaClass.simpleName, "生物识别认证异常：当前设备版本不支持密钥读取")

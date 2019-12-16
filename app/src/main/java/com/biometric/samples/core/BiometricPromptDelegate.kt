@@ -1,4 +1,4 @@
-package com.biometric.samples
+package com.biometric.samples.core
 
 import android.content.Context
 import android.os.Bundle
