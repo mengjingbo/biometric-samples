@@ -125,11 +125,7 @@ class MainActivity : AppCompatActivity(), OnBiometricAuthenticationCallback {
                     val mSecretKey = BiometricPromptSecretKeyHelper.getSecretKey(SECRET_KEY)
                     if (mCipher != null && mSecretKey != null) {
                         mCipher.init(Cipher.ENCRYPT_MODE, mSecretKey)
-                        mBiometricController.startAuthentication(
-                            BiometricPromptInfo(
-                                title = "生物识别",
-                                negativeButtonText = "使用密码"
-                            ), mCipher)
+                        mBiometricController.startAuthentication(BiometricPromptInfo(title = "生物识别", negativeButtonText = "使用密码"), mCipher)
                     }
                 } else {
                     Log.e(this.javaClass.simpleName, "生物识别认证异常：当前设备版本不支持密钥读取")
