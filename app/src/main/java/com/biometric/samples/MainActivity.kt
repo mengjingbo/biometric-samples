@@ -96,14 +96,14 @@ class MainActivity : AppCompatActivity(), OnBiometricAuthenticationCallback {
      */
     private fun checkBiometricCompat(){
         when (mBiometricController.checkBiometricCompat()) {
-            BiometricCompatMode.BIOMETRIC_SUCCESS_MESSAGE -> {
+            BiometricCompatMode.BIOMETRIC_SUCCESS -> {
                 // 设备支持生物识别功能，启动生物识别认证
                 mTips.text = ""
                 startAuthentication()
             }
-            BiometricCompatMode.BIOMETRIC_ERROR_NONE_ENROLLED -> mTips.text = "生物识别失败"
-            BiometricCompatMode.BIOMETRIC_ERROR_HW_UNAVAILABLE_MESSAGE -> mTips.text = "未开启生物识别"
-            BiometricCompatMode.BIOMETRIC_ERROR_NO_HARDWARE -> mTips.text = "不支持生物识别"
+            BiometricCompatMode.BIOMETRIC_ERROR_NONE_ENROLLED -> mTips.text = "生物识别未启用"
+            BiometricCompatMode.BIOMETRIC_ERROR_HW_UNAVAILABLE -> mTips.text = "当前设备不支持生物识别"
+            BiometricCompatMode.BIOMETRIC_ERROR_NO_HARDWARE -> mTips.text = "当前设备不支持生物识别"
             else -> mTips.text = "未知错误"
         }
     }

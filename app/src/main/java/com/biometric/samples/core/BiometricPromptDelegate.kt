@@ -56,9 +56,9 @@ abstract class BiometricPromptDelegate {
         return if (getApplicationContext() != null) {
             val mBiometricManager = getApplicationContext()?.let { BiometricManager.from(it) }
             when (mBiometricManager?.canAuthenticate()) {
-                BiometricManager.BIOMETRIC_SUCCESS -> BiometricCompatMode.BIOMETRIC_SUCCESS_MESSAGE
+                BiometricManager.BIOMETRIC_SUCCESS -> BiometricCompatMode.BIOMETRIC_SUCCESS
                 BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> BiometricCompatMode.BIOMETRIC_ERROR_NONE_ENROLLED
-                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> BiometricCompatMode.BIOMETRIC_ERROR_HW_UNAVAILABLE_MESSAGE
+                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> BiometricCompatMode.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> BiometricCompatMode.BIOMETRIC_ERROR_NO_HARDWARE
                 else -> BiometricCompatMode.BIOMETRIC_ERROR_UNKNOWN
             }

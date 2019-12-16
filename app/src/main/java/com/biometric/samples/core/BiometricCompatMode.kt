@@ -7,19 +7,19 @@ package com.biometric.samples.core
  */
 enum class BiometricCompatMode {
     /**
-     * 生物识别成功
+     * 当前设备支持生物识别
      */
-    BIOMETRIC_SUCCESS_MESSAGE,
+    BIOMETRIC_SUCCESS,
     /**
-     * 设备未开启生物识别
+     * 当前设备不支持生物识别
      */
-    BIOMETRIC_ERROR_HW_UNAVAILABLE_MESSAGE,
+    BIOMETRIC_ERROR_HW_UNAVAILABLE,
     /**
-     * 生物识别失败
+     * 当前设备未启用生物识别
      */
     BIOMETRIC_ERROR_NONE_ENROLLED,
     /**
-     * 设备无生物识别硬件
+     * 当前设备无生物识别硬件
      */
     BIOMETRIC_ERROR_NO_HARDWARE,
     /**
