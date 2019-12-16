@@ -4,6 +4,7 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.annotation.RequiresApi
+import java.security.Key
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -18,20 +19,20 @@ import javax.crypto.SecretKey
 object BiometricPromptSecretKeyHelper {
 
     /**
-     *
+     * 生成生物识别绑定的密钥
      */
-    fun generateBiometricBoundKey(keyName: String, invalidatedByBiometricEnrollment: Boolean) {
-        generateKey(keyName, true, invalidatedByBiometricEnrollment, -1)
+    fun generateBiometricBoundKey(keyName: String, invalidatedByBiometricEnrollment: Boolean): Key? {
+        return generateKey(keyName, true, invalidatedByBiometricEnrollment, -1)
     }
 
     /**
-     *
+     * 生成生物识别绑定的密钥
      */
-    fun generateCredentialBoundKey(keyName: String, validityDuration: Int) {
-        generateKey(keyName = keyName, validityDuration = validityDuration)
+    fun generateCredentialBoundKey(keyName: String, validityDuration: Int): Key? {
+        return generateKey(keyName = keyName, validityDuration = validityDuration)
     }
 
-    private fun generateKey(keyName: String, biometricBound: Boolean = false, invalidatedByBiometricEnrollment: Boolean = false, validityDuration: Int) {
+    private fun generateKey(keyName: String, biometricBound: Boolean = false, invalidatedByBiometricEnrollment: Boolean = false, validityDuration: Int): Key? {
         val mBuilder = KeyGenParameterSpec.Builder(keyName, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
             .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -46,15 +47,14 @@ object BiometricPromptSecretKeyHelper {
         }
         val mKeyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore")
         mKeyGenerator.init(mBuilder.build())
-        mKeyGenerator.generateKey()
+        return mKeyGenerator.generateKey()
     }
 
-    fun getSecretKey(keyName: String): SecretKey {
+    fun getSecretKey(keyName: String): SecretKey? {
         val mKeyStore = KeyStore.getInstance("AndroidKeyStore")
         mKeyStore.load(null)
         return mKeyStore.getKey(keyName, null) as SecretKey
     }
 
-    fun getCipher(): Cipher =
-        Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7)
+    fun getCipher(): Cipher? = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7)
 }

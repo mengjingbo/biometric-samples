@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/create_secret_key"
+        android:orderInCategory="0"
+        android:title="生成密钥"
+        app:showAsAction="never" />
+    <group
+        android:checkableBehavior="all"
+        android:orderInCategory="1">
+        <item
+            android:id="@+id/used_secret_key"
+            android:title="使用密钥认证"
+            app:showAsAction="never" />
+    </group>
+</menu>

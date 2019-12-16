@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.biometric.samples.callback.OnBiometricAuthenticationCallback
 
 /**
  * date        ：2019/11/30
@@ -17,14 +18,14 @@ class BiometricPromptController(private val context: Context?) : BiometricPrompt
     /**
      * 在FragmentActivity中注册
      */
-    override fun registered(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback) {
+    override fun register(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback) {
         mBiometricPrompt = BiometricPrompt(activity, mExecutor, OnAuthenticationCallback(callback))
     }
 
     /**
      * 在Fragment中注册
      */
-    override fun registered(fragment: Fragment, callback: OnBiometricAuthenticationCallback) {
+    override fun register(fragment: Fragment, callback: OnBiometricAuthenticationCallback) {
         mBiometricPrompt = BiometricPrompt(fragment, mExecutor, OnAuthenticationCallback(callback))
     }
 

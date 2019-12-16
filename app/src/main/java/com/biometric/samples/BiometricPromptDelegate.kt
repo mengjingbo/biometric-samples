@@ -10,7 +10,9 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.biometric.samples.callback.OnBiometricAuthenticationCallback
 import java.util.concurrent.Executor
+import javax.crypto.Cipher
 
 /**
  * date        ：2019/11/30
@@ -30,9 +32,7 @@ abstract class BiometricPromptDelegate {
     open val mExecutor = Executor { Handler(Looper.getMainLooper()).post(it) }
 
     fun init(@Nullable savedInstanceState: Bundle?) {
-        savedInstanceState?.let {
-            mCounter = savedInstanceState.getInt(KEY_COUNTER)
-        }
+        savedInstanceState?.let { mCounter = savedInstanceState.getInt(KEY_COUNTER) }
     }
 
     fun onSaveInstanceState(@NonNull outState: Bundle) {
@@ -42,9 +42,12 @@ abstract class BiometricPromptDelegate {
     @NonNull
     abstract fun getApplicationContext(): Context?
 
-    abstract fun registered(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback)
+    /**
+     * 注册
+     */
+    abstract fun register(activity: FragmentActivity, callback: OnBiometricAuthenticationCallback)
 
-    abstract fun registered(fragment: Fragment, callback: OnBiometricAuthenticationCallback)
+    abstract fun register(fragment: Fragment, callback: OnBiometricAuthenticationCallback)
 
     /**
      * 检测设备是否支持生物识别
@@ -64,7 +67,10 @@ abstract class BiometricPromptDelegate {
         }
     }
 
-    open fun startAuthentication(info: BiometricPromptInfo) {
+    /**
+     * 启动生物识别认证
+     */
+    open fun startAuthentication(@NonNull info: BiometricPromptInfo) {
         mCounter++
         mBiometricPrompt?.authenticate(
             BiometricPrompt.PromptInfo.Builder()
@@ -72,13 +78,28 @@ abstract class BiometricPromptDelegate {
                 .setSubtitle(info.subtitle)
                 .setDescription(info.description)
                 .setConfirmationRequired(true)
-                // .setNegativeButtonText(info.negativeButtonText)
                 .setDeviceCredentialAllowed(true)
                 .build()
         )
     }
 
-    open fun onPush() {
+    /**
+     * 启动生物识别认证，含密钥
+     */
+    open fun startAuthentication(@NonNull info: BiometricPromptInfo, @NonNull cipher: Cipher) {
+        mCounter++
+        mBiometricPrompt?.authenticate(
+            BiometricPrompt.PromptInfo.Builder()
+                .setTitle(info.title)
+                .setSubtitle(info.subtitle)
+                .setDescription(info.description)
+                .setNegativeButtonText(info.negativeButtonText)
+                .build(), BiometricPrompt.CryptoObject(cipher)
+        )
+    }
 
+    open fun onPush() {
+        // 取消生物识别认证
+        mBiometricPrompt?.cancelAuthentication()
     }
 }

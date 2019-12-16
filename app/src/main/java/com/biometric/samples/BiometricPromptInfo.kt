@@ -9,29 +9,18 @@ data class BiometricPromptInfo(
     /**
      * 必填：生物识别弹框标题
      */
-    var title: String = "",
+    var title: String,
     /**
      * 可选：生物识别弹框副标题
      */
-    var subtitle: String? = "",
+    var subtitle: String = "",
     /**
-     * 可选：生物识别弹框描述
+     * 可选：生物识别弹框提示
      */
-    var description: String? = "",
+    var description: String = "",
     /**
-     * 必填：设置去取消按钮的文本。 但也可用于显示另一种身份验证方式，例如“输入备用密码”验证。
+     * 认证方式一：单纯的生物识别认证和密码认证无需填写
+     * 认证方式二：使用密钥与生物识别绑定认证时必填,
      */
-    var negativeButtonText: String = "",
-    /**
-     * 可选：
-     */
-    var requireConfirmation: Boolean? = true,
-    /**
-     * 生物识别弹框副标题
-     */
-    var deviceCredentialAllowed: Boolean? = true,
-    /**
-     * 生物识别弹框副标题
-     */
-    var handlingDeviceCredentialResult: Boolean? = false
+    var negativeButtonText: String = ""
 )

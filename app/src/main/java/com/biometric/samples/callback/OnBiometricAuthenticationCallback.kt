@@ -1,4 +1,4 @@
-package com.biometric.samples
+package com.biometric.samples.callback
 
 import androidx.biometric.BiometricPrompt
 
